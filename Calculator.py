@@ -27,6 +27,8 @@ def sub(x, y):
     return x - y
 
 def div(x, y):
+    if (y==0):
+        y=1
     return x / y
 
 def mult(x, y):
@@ -35,16 +37,14 @@ def mult(x, y):
 
 def storage(a):
     global digit_held
-    if (a is int):
+    if (isinstance(a, int)):
         hold[digit_held]=hold[digit_held]*10
         hold[digit_held]=hold[digit_held]+a
         print(hold[digit_held])
-    elif(a == (mult, add, div, sub)):
+    else:
         hold_operation.append(a)
         digit_held=digit_held+1
         hold.append(0)
-    else:
-        print ("error")
     
     
 def enter():
@@ -65,7 +65,7 @@ def add_buttons(j):
         btn = tk.Button(
             text=k,
             # unfuck
-            command=storage(val(k)),
+            command=storage(k),
             master=row[j],
             )
         btn.pack(side=tk.LEFT)
