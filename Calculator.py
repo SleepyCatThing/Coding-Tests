@@ -21,6 +21,7 @@ def val(x):
     storage(x)
 
 def add(x, y):
+    print (x+y)
     return x + y
 
 def sub(x, y):
@@ -50,9 +51,9 @@ def storage(a):
 def enter():
     result=0
     j=0
-    for i in range (len(hold)-1):
+    for i in range (len(hold)):
         result=hold_operation[j](result, hold[i])
-        if (j<(len(hold_operation))+1):
+        if (j<(len(hold_operation))-1):
             j=j+1
     print(result)
 
