@@ -13,6 +13,9 @@ button_row_3 = tk.Frame(width=100, height=10)
 button_row_4 = tk.Frame(width=100, height=10)
 row = [button_row_1, button_row_2, button_row_3, button_row_4]
 symbolic_operations = ["+", "-", "/", "*", "="]
+hold=[0]
+hold_operation=[]
+digit_held=0
 # UNFUCK THIS
 def val(x):
     storage(x)
@@ -29,54 +32,61 @@ def div(x, y):
 def mult(x, y):
     return x * y
 
-hold=[1]
-digit_held=0
+
 def storage(a):
     global digit_held
-    if (hold[digit_held] is int):
+    if (a is int):
         hold[digit_held]=hold[digit_held]*10
         hold[digit_held]=hold[digit_held]+a
         print(hold[digit_held])
-    else:
-        hold.append(a)
-        print(hold[digit_held])
+    elif(a == (mult, add, div, sub)):
+        hold_operation.append(a)
         digit_held=digit_held+1
+        hold.append(0)
+    else:
+        print ("error")
     
     
 def enter():
-    hold[0](hold[1],hold[2])
+    result=0
+    j=0
+    for i in range (len(hold)-1):
+        result=hold_operation[j](result, hold[i])
+        if (j<(len(hold_operation))+1):
+            j=j+1
+    print(result)
 
 operations = [add, sub, div, mult, enter]
 
 def add_buttons(j):
-    for i in range (10):
-        if (i==0):
+    for k in range (10):
+        if (k==0):
             j=3
         btn = tk.Button(
-            text=i,
+            text=k,
             # unfuck
-            command=val(i),
+            command=storage(val(k)),
             master=row[j],
             )
         btn.pack(side=tk.LEFT)
-        if ((i)%3==0):
+        if ((k)%3==0):
             j=j+1
-        if (i==0):
+        if (k==0):
             j=0
         btn.pack(side=tk.LEFT)
 
-    for i in range (4):
+    for k in range (4):
         btn = tk.Button(
-            text=symbolic_operations[i],
-            command=storage(operations[i]),
-            master=row[i],
+            text=symbolic_operations[k],
+            command=storage(operations[k]),
+            master=row[k],
         )
         btn.pack(side=tk.LEFT)
-        if (i==3):
+        if (k==3):
             btn = tk.Button(
-            text=symbolic_operations[i+1],
-            command=operations[i+1],
-            master=row[i],
+            text=symbolic_operations[k+1],
+            command=enter,
+            master=row[k],
             )
             btn.pack(side=tk.LEFT)
 
